@@ -1,22 +1,60 @@
 {
   "name": "webpack-starter",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/main.js",
   "license": "ISC",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server -d",
-    "build": "cross-env NODE_ENV=production webpack -p"
+    "build": "run-s lint test webpack",
+    "webpack": "cross-env NODE_ENV=production webpack -p",
+    "lint": "standard",
+    "lint:fix": "standard --fix",
+    "test": "jest --coverage --collectCoverageFrom=src/**/*.{js,jsx} --collectCoverageFrom=!**/__tests__/**",
+    "test:watch": "jest --watch --coverage"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/setupTests.js",
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "testMatch": [
+      "**/__tests__/*[-.]spec.js?(x)"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "empty-module",
+      "^(?!.*\\.module\\.s?css).*\\.s?css$": "empty-module",
+      "\\.module\\.s?css$": "identity-obj-proxy"
+    },
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.40",
     "@babel/preset-env": "7.0.0-beta.40",
     "@babel/preset-react": "7.0.0-beta.40",
     "@babel/preset-stage-2": "7.0.0-beta.40",
+    "babel-eslint": "8.2.2",
     "babel-loader": "8.0.0-beta.0",
+    "clean-webpack-plugin": "0.1.19",
     "cross-env": "5.1.4",
     "css-loader": "0.28.10",
+    "deep-freeze": "0.0.1",
+    "duplicate-package-checker-webpack-plugin": "2.1.0",
+    "empty-module": "0.0.2",
+    "enzyme": "3.3.0",
+    "enzyme-adapter-react-16": "1.1.1",
+    "enzyme-to-json": "3.3.1",
     "extract-text-webpack-plugin": "4.0.0-beta.0",
+    "file-loader": "1.1.11",
+    "identity-obj-proxy": "3.0.0",
+    "jest": "22.4.2",
     "npm-run-all": "4.1.2",
+    "standard": "11.0.0",
     "style-loader": "0.20.3",
     "stylus": "0.54.5",
     "stylus-loader": "3.0.2",

@@ -1,10 +1,12 @@
 const webpack = require('webpack')
 const path = require('path')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
+// TODO - public vs dist ...
 const config = {
   output: {
-    publicPath: '/public/',
+    publicPath: '/public/'
   },
   devServer: {
     contentBase: path.join(__dirname, 'public'),
@@ -34,6 +36,16 @@ const config = {
             'stylus-loader'
           ]
         })
+      },
+      {
+        test: /\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            publicPath: '/public/media/',
+            outputPath: 'media'
+          }
+        }
       }
     ]
   },
@@ -41,8 +53,9 @@ const config = {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     extensions: ['.js', '.jsx']
   },
-  // TODO - are these still necessary in 4.0 ?
   plugins: [
+    new CleanWebpackPlugin(path.resolve(__dirname, 'dist')),
+    // TODO - are these still necessary in 4.0 ?
     new webpack.EnvironmentPlugin(['NODE_ENV']),
     new ExtractTextPlugin('main.css'),
     new webpack.optimize.ModuleConcatenationPlugin()
